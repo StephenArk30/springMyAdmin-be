@@ -7,51 +7,82 @@
 ## API List
 
 ### 查询
-- 登录
--[x] 读取所有数据库
+- [x] 登录
 
-    ```show databases;```
--[x] 读取数据库下所有表
+- [x] 读取所有数据库
 
-    ```show tables;```
--[x] 读取所有属性
+```sql
+show databases;
+```
 
-    ```select COLUMN_NAME from information_schema.COLUMNS where table_name={} and table_schema={};```
--[x] 读取表所有数据
+- [x] 读取数据库下所有表
 
-    ```select * from {}```
--[x] 按属性搜索
+```sql
+show tables;
+```
 
-    ```select * from {} where {}```
+- [x] 读取所有属性
+
+```sql
+select COLUMN_NAME from information_schema.COLUMNS where table_name={} and table_schema={};
+```
+
+- [x] 读取表所有数据
+
+```sql
+select * from {}
+```
+
+- [x] 按属性搜索
+
+```sql
+select * from {} where {}
+```
 
 ### 增加
--[x] 新建数据库
+- [x] 新建数据库
 
-    ```create database {}```
--[x] 新建表
+```sql
+create database {}
+```
+- [x] 新建表
 
-    ```
-    create table {}
-    (
-    {COLUMN_NAME} {COLUMN_TYPE} {IS_NULLABLE} default {COLUMN_DEFAULT} comment {COLUMN_COMMENT},
-    ......
-    {COLUMN_KEY}
-    )
-    ```
--[x] 插入一条数据
+```sql
+create table {}
+(
+{COLUMN_NAME} {COLUMN_TYPE} {IS_NULLABLE} default {COLUMN_DEFAULT} comment {COLUMN_COMMENT},
+......
+{COLUMN_KEY}
+)
+```
+- [x] 插入一条数据
 
-    ```insert into {table} ({column1}, {column2},...) VALUES ({value1}, {value2},....)```
+```sql
+insert into {table} ({column1}, {column2},...) VALUES ({value1}, {value2},....)
+```
 ### 删除
--[x] 删除一个数据库
+- [x] 删除一个数据库
 
-    ```drop database {}```
--[x] 删除一个表
-    ```drop table {}```
--[x] 删除一条数据
+```sql
+drop database {}
+```
+- [x] 删除一个表
 
-    ```delete from {} where {}```
+```sql
+drop table {}
+```
+
+
+
+- [x] 删除一条数据
+
+```sql
+delete from {} where {}
+```
 
 ### 修改
--[x] 修改一条数据
+- [x] 修改一条数据
 
-    ```update {table} set {column}={value} where {}```
+```sql
+update {table} set {column}={value} where {}
+```
