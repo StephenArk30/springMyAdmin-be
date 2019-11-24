@@ -7,9 +7,6 @@ import java.util.List;
 
 public class SQLBase {
 
-
-
-
     protected static Connection createConnection(String dbName, String username, String password) throws SQLException, ClassNotFoundException {
         String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
 //        String JDBC_DRIVER = "com.mysql.jdbc.Driver"; // below mysql8.0

@@ -1,15 +1,11 @@
 package com.arkonrive.springmyadmin.utils.curd;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.arkonrive.springmyadmin.utils.Attribute;
 import com.arkonrive.springmyadmin.utils.SQLBase;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class CreateSQL extends SQLBase {
@@ -19,26 +15,44 @@ public class CreateSQL extends SQLBase {
         querySimpleSQL(username, password, "", createSQL); // dbName isn't required
     }
 
-    public static void createTable(String dbName, String tableName, List<Attribute> attributes,
+    public static void createTable(String dbName, String tableName, JSONArray attributes,
                                    String username, String password) throws SQLException, ClassNotFoundException {
         StringBuilder columnSQL = new StringBuilder();
-        boolean first = true;
-        for (Attribute attribute : attributes) {
-            if (!first) columnSQL.append(",\n");
-            else first = false;
-            columnSQL.append(attribute.getCOLUMN_NAME());
-            columnSQL.append(" ").append(attribute.getCOLUMN_TYPE());
-            if (!attribute.getIS_NULLABLE().isEmpty()) {
-                columnSQL.append(" ").append(attribute.getIS_NULLABLE());
+        StringBuilder columnIndexSQL = new StringBuilder();
+        boolean firstAttributeLine = true;
+        for (Object iterator : attributes) {
+            JSONObject attribute = (JSONObject) iterator;
+            if (!firstAttributeLine) columnSQL.append(",\n");
+            else firstAttributeLine = false;
+
+            // NAME TYPE(LENGTH) NULLABLE DEFAULT default AUTO_INCREMENT COMMENT comment
+            columnSQL.append(attribute.getString("name"));
+            columnSQL.append(" ").append(attribute.getString("type"));
+
+            if (!attribute.getString("length").isEmpty())
+                columnSQL.append(String.format("(%s)", attribute.getString("length")));
+
+            if (attribute.getString("nullable").compareTo("false") == 0)
+                columnSQL.append(" not");
+            columnSQL.append(" null");
+
+            if (attribute.getString("default").length() > 0) {
+                String _default = attribute.getString("default");
+                if (_default.toUpperCase().compareTo("NULL") == 0 || _default.toUpperCase().compareTo("CURRENT_TIMESTAMP") == 0)
+                    columnSQL.append(String.format(" default %s", attribute.getString("default")));
+                else columnSQL.append(String.format(" default '%s'", attribute.getString("default")));
             }
-            if (!attribute.getCOLUMN_DEFAULT().isEmpty()) {
-                columnSQL.append(" default ").append(attribute.getCOLUMN_DEFAULT());
-            }
-            if (!attribute.getCOLUMN_COMMENT().isEmpty()) {
-                columnSQL.append(" comment ").append(attribute.getCOLUMN_COMMENT());
-            }
+
+            if (attribute.getString("auto_increment").compareTo("true") == 0)
+                columnSQL.append(" auto_increment");
+
+            if (attribute.getString("comment").length() > 0)
+                columnSQL.append(String.format(" comment '%s'", attribute.getString("comment")));
+
+            if (attribute.getString("index").length() > 0)
+                columnIndexSQL.append(String.format(",\n%s (%s)", attribute.getString("index"), attribute.getString("name")));
         }
-        String createSQL = String.format("create table %s\n(\n%s\n);", tableName, columnSQL);
+        String createSQL = String.format("create table %s\n(\n%s%s\n);", tableName, columnSQL, columnIndexSQL);
 
         querySimpleSQL(username, password, dbName, createSQL);
     }

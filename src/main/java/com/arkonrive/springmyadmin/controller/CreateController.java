@@ -1,5 +1,6 @@
 package com.arkonrive.springmyadmin.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.arkonrive.springmyadmin.utils.Attribute;
 import com.arkonrive.springmyadmin.utils.CookieUtil;
@@ -51,11 +52,11 @@ public class CreateController {
         String password = userInfo[1];
         String database = JSONObject.parseObject(data).getString("database");
         String table = JSONObject.parseObject(data).getString("table");
-        JSONObject table_data = JSONObject.parseObject(data).getJSONObject("data");
+        JSONArray table_data = JSONObject.parseObject(data).getJSONArray("data");
         if (database == null || table == null) return Util.add2JSON("err", "invalid database or table");
 
         try {
-            CreateSQL.createTable(database, table, Util.JSONObject2Array(table_data), username, password);
+            CreateSQL.createTable(database, table, table_data, username, password);
             return Util.add2JSON("res", "create table " + table);
         } catch (SQLException e) {
             response.setStatus(400);

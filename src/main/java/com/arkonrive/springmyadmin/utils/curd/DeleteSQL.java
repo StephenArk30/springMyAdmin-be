@@ -3,10 +3,7 @@ package com.arkonrive.springmyadmin.utils.curd;
 import com.alibaba.fastjson.JSONObject;
 import com.arkonrive.springmyadmin.utils.SQLBase;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DeleteSQL extends SQLBase {
     DeleteSQL() { super(); }

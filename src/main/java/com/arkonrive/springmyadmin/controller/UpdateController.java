@@ -3,7 +3,6 @@ package com.arkonrive.springmyadmin.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.arkonrive.springmyadmin.utils.CookieUtil;
 import com.arkonrive.springmyadmin.utils.Util;
-import com.arkonrive.springmyadmin.utils.curd.CreateSQL;
 import com.arkonrive.springmyadmin.utils.curd.UpdateSQL;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
