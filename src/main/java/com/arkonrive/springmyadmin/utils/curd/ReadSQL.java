@@ -25,11 +25,8 @@ public class ReadSQL extends SQLBase {
         stmt = conn.createStatement();
         ResultSet rs = conn.getMetaData().getCatalogs();
 
-        // 展开结果集数据库
-        while(rs.next()){
-//            System.out.println(rs.getString("TABLE_CAT"));
-            databases.add(rs.getString("TABLE_CAT"));
-        }
+        // 展开结果集
+        while(rs.next()){ databases.add(rs.getString("TABLE_CAT")); }
         // 完成后关闭
         rs.close();
         stmt.close();
@@ -50,11 +47,8 @@ public class ReadSQL extends SQLBase {
         ResultSet rs = stmt.executeQuery("show tables");
         String columnName = "Tables_in_" + dbName;
 
-        // 展开结果集数据库
-        while(rs.next()){
-//            System.out.println(rs.getString(columnName));
-            tables.add(rs.getString(columnName));
-        }
+        // 展开结果集
+        while(rs.next()){ tables.add(rs.getString(columnName)); }
         // 完成后关闭
         rs.close();
         stmt.close();
@@ -85,7 +79,7 @@ public class ReadSQL extends SQLBase {
         Logger.log(selectSQL);
         ResultSet rs = stmt.executeQuery(selectSQL);
 
-        // 展开结果集数据库
+        // 展开结果集
         while(rs.next()){
             JSONObject row = new JSONObject();
             // 对每一个属性，判断其类别，放入json中
@@ -98,6 +92,11 @@ public class ReadSQL extends SQLBase {
                     row.put(columnName, rs.getString(columnName));
                 } else if (columnType.compareTo("float") == 0) {
                     row.put(columnName, rs.getFloat(columnName));
+                } else if (columnType.compareTo("datetime") == 0) {
+                    if(rs.getTime(columnName) != null)
+                        row.put(columnName, rs.getDate(columnName).toString() + " " + rs.getTime(columnName).toString());
+                } else if (columnType.compareTo("date") == 0) {
+                    row.put(columnName, rs.getDate(columnName));
                 }
             }
             dataset.add(row); // 加入json列表
@@ -123,10 +122,8 @@ public class ReadSQL extends SQLBase {
         Logger.log(selectSQL);
         ResultSet rs = stmt.executeQuery(selectSQL);
 
-        // 展开结果集数据库
-        while(rs.next()){
-            count = rs.getInt("row_count");
-        }
+        // 展开结果集
+        while(rs.next()){ count = rs.getInt("row_count"); }
         // 完成后关闭
         rs.close();
         stmt.close();
@@ -145,9 +142,7 @@ public class ReadSQL extends SQLBase {
         // 执行查询
         stmt = conn.createStatement();
         List<Attribute> attributes = getAttributes(stmt, tableName, dbName);
-        for (Attribute attribute : attributes) {
-            columns.add(attribute.toJSONObject());
-        }
+        for (Attribute attribute : attributes) { columns.add(attribute.toJSONObject()); }
 
         stmt.close();
         conn.close();

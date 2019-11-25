@@ -67,7 +67,6 @@ public class ReadController {
         if (userInfo == null) return Util.add2JSON("err", "no cookies");
         String username = userInfo[0];
         String password = userInfo[1];
-//        System.out.println(String.format("%s %s %s", username, password, database));
 
         try {
             return Util.add2JSON("res", ReadSQL.getTables(database, username, password));

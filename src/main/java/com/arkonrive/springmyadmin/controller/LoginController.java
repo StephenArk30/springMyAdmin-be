@@ -20,8 +20,6 @@ public class LoginController {
         String username, password;
         username = JSONObject.parseObject(data).getString("username");
         password = JSONObject.parseObject(data).getString("password");
-//        System.out.println(username);
-//        System.out.println(password);
 
         boolean auth = SQLBase.authUser(username, password);
         if (auth) {
