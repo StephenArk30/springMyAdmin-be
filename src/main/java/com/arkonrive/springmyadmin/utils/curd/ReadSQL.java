@@ -8,6 +8,7 @@ import com.arkonrive.springmyadmin.utils.SQLBase;
 
 import java.sql.*;
 import java.util.List;
+import java.util.TimeZone;
 
 public class ReadSQL extends SQLBase {
 
@@ -93,6 +94,8 @@ public class ReadSQL extends SQLBase {
                 } else if (columnType.compareTo("float") == 0) {
                     row.put(columnName, rs.getFloat(columnName));
                 } else if (columnType.compareTo("datetime") == 0) {
+                    TimeZone tz = TimeZone.getTimeZone("ETC/GMT-8"); // 设置时区
+                    TimeZone.setDefault(tz);
                     if(rs.getTime(columnName) != null)
                         row.put(columnName, rs.getDate(columnName).toString() + " " + rs.getTime(columnName).toString());
                 } else if (columnType.compareTo("date") == 0) {

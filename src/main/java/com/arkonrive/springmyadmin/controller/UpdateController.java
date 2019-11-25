@@ -2,6 +2,7 @@ package com.arkonrive.springmyadmin.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.arkonrive.springmyadmin.utils.CookieUtil;
+import com.arkonrive.springmyadmin.utils.Logger;
 import com.arkonrive.springmyadmin.utils.Util;
 import com.arkonrive.springmyadmin.utils.curd.UpdateSQL;
 import org.springframework.stereotype.Controller;
@@ -32,7 +33,7 @@ public class UpdateController {
 
         try {
             UpdateSQL.updateRow(database, table, username, password, column_values, where);
-            return Util.add2JSON("res", "create table " + table);
+            return Util.add2JSON("res", "update 1 row in " + table);
         } catch (SQLException e) {
             response.setStatus(400);
             return Util.add2JSON("err", e.getMessage());
