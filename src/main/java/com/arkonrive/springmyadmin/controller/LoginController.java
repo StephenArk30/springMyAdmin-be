@@ -1,6 +1,7 @@
 package com.arkonrive.springmyadmin.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arkonrive.springmyadmin.utils.Logger;
 import com.arkonrive.springmyadmin.utils.CookieUtil;
 import com.arkonrive.springmyadmin.utils.SQLBase;
 import com.arkonrive.springmyadmin.utils.Util;
@@ -20,6 +21,8 @@ public class LoginController {
         String username, password;
         username = JSONObject.parseObject(data).getString("username");
         password = JSONObject.parseObject(data).getString("password");
+
+        Logger.log(username + " login using password " + password);
 
         boolean auth = SQLBase.authUser(username, password);
         if (auth) {

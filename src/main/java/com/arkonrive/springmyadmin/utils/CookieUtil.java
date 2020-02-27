@@ -37,7 +37,7 @@ public class CookieUtil {
     public static void addCookie(HttpServletResponse response, String name, String value, int expire) {
         Cookie cookie = new Cookie(name, value);
         cookie.setMaxAge(expire);
-        cookie.setDomain("localhost");
+        cookie.setDomain("arkonrive.site");
         response.addCookie(cookie); // 传递对象时是传引用
     }
 

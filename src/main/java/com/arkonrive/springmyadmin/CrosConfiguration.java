@@ -18,7 +18,7 @@ public class CrosConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000", "null")
+                        .allowedOrigins("http://springmyadmin.arkonrive.site", "null")
                         .allowedMethods("POST", "GET", "PUT", "OPTIONS", "DELETE")
                         .maxAge(3600)
                         .allowCredentials(true);
