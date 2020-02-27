@@ -2,6 +2,13 @@
 
 ## Installation
 
+```bash
+cd springmyadmin-be
+mvn clean install
+mvn clean package
+java -jar target/springmyadmin-0.0.1-SNAPSHOT.jar
+```
+
 
 
 ## API List
